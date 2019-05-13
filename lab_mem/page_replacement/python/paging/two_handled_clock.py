@@ -1,4 +1,5 @@
-class TowHandledClock:
+# coding: utf-8
+class TwoHandledClock:
 
   def __init__(self):
     self.allocatedFrames = []

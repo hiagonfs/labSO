@@ -19,3 +19,7 @@ nfaults,nframes,alg
 87654,32,second-chance
 276964,4,second-chance
 181848,8,second-chance
+134559,16,two-handled-clock
+95722,32,two-handled-clock
+293792,4,two-handled-clock
+196887,8,two-handled-clock
