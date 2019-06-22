@@ -60,10 +60,14 @@ if __name__ == "__main__":
     clock = int(sys.argv[4])
 
     # read workload from input file
-    workload = []
+    # workload = []
+    # for line in sys.stdin.readlines():
+    #     page_id, mode = line.split(",")
+    #     workload.append((int(page_id), mode > 0))
+    workload = [[], []]
     for line in sys.stdin.readlines():
-        page_id, mode = line.split(",")
-        workload.append((int(page_id), mode > 0))
+        page_id, mode, proccess = line.split(" ")
+        workload[int(proccess)-1].append((int(page_id), mode == 'w'))
 
     # setup simulation
     phyMem = PhysicalMemory(alg)
@@ -71,14 +75,28 @@ if __name__ == "__main__":
 
     # fire
     count = 0
+    proc = 0
+    proc1_index = 0
+    proc2_index = 0
     fault_counter = 0
-    for load in workload:
-        # call we fired clock (say, clock equals to 100) times, we tell the physical_mem to react to a clock event
-        if count % clock == 0:
-            phyMem.clock()
-        count += 1
-        page_id, acc_mode = load
-        fault_counter += vMem.access(page_id, acc_mode)
+
+    while proc1_index < len(workload[0]) or proc2_index < len(workload[1]):
+        for load in workload[proc % 2][(proc1_index if proc % 2 == 0 else proc2_index):]:
+            # call we fired clock (say, clock equals to 100) times, we tell the physical_mem to react to a clock event
+            if count % clock == 0:
+                phyMem.clock()
+
+            if count % (clock * 5) == 0:
+                proc += 1
+                break
+
+            count += 1
+            page_id, acc_mode = load
+            fault_counter += vMem.access(page_id, acc_mode)
+            if (proc % 2 == 0):
+                proc1_index += 1
+            else:
+                proc2_index += 1
 
     #TODO
     # collect results
