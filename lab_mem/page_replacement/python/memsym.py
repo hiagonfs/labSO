@@ -74,20 +74,19 @@ if __name__ == "__main__":
     vMem = VirtualMemory(num_pages, num_frames, phyMem)
 
     # fire
-    count = 0
+    count = 1
     proc = 0
     proc1_index = 0
     proc2_index = 0
     fault_counter = 0
 
-    while proc1_index < len(workload[0]) or proc2_index < len(workload[1]):
+    while proc1_index < len(workload[0]) or proc2_index < len(workload[1])-3000:
         for load in workload[proc % 2][(proc1_index if proc % 2 == 0 else proc2_index):]:
             # call we fired clock (say, clock equals to 100) times, we tell the physical_mem to react to a clock event
             if count % clock == 0:
                 phyMem.clock()
-
-            if count % (clock * 5) == 0:
                 proc += 1
+                count += 1
                 break
 
             count += 1
