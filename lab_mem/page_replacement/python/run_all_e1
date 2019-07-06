@@ -12,7 +12,7 @@ do
         for nframes in 4 8 16 32
         do
 	    mkdir output/$trace
-	    python memsym.py $npages $nframes $alg $clock < load/$trace.csv > output/$trace/$trace.$alg.$nframes.out
+	    python memsym-e1.py $npages $nframes $alg $clock < load/$trace.csv > output/$trace/$trace.$alg.$nframes.out
 	done
     done
 done
