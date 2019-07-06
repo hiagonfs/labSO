@@ -4,6 +4,7 @@ from paging.second_chance import SecondChance
 from paging.nru import NRU
 from paging.lru import LRU
 from paging.aging import Aging
+from paging.two_handled_clock import TwoHandledClock
 
 # This is the only file you must implement
 
@@ -19,7 +20,7 @@ class PhysicalMemory:
   """How many bits to use for the Aging algorithm"""
 
   def __init__(self, algorithmType):
-    assert algorithmType in {"fifo", "nru", "aging", "second-chance", "lru"}
+    assert algorithmType in {"fifo", "nru", "aging", "second-chance", "lru", "two-handled-clock"}
     
     if algorithmType == "fifo":
         self.algorithm = FIFO()
@@ -35,6 +36,9 @@ class PhysicalMemory:
 
     elif algorithmType == "aging":
         self.algorithm = Aging()
+    
+    elif algorithmType == "two-handled-clock":
+      self.algorithm = TwoHandledClock()
 
   def put(self, frameId):
     """Allocates this frameId for some page"""
